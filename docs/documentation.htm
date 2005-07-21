@@ -1,0 +1,126 @@
+<html>
+  <head>
+  <title>Mimic Documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  </head>
+  
+<style type="text/css">
+body{
+  background-color:#E4EBF1;
+  color:#000000; 
+  font-size:10pt;
+  font-family:Verdana,Arial,Helvetica;
+}
+p{
+  font-size:10pt;
+  margin-top:0.2em;
+  margin-bottom:0.3em;  
+}
+h1{
+  font-size:16pt;
+  font-weight:bold;
+  margin-top:1em;
+  margin-bottom:0.7em;  
+}
+h2{
+  font-size:12pt;
+  font-weight:bold;
+  margin-top:0.5em;
+  margin-bottom:0.2em;  
+}
+</style>
+
+  <body bgcolor="#E4EBF1">  
+    <center>
+		<table width="760" border="0" cellpadding="0" cellspacing="1" bgcolor="#527496">	
+		  <tr>
+			<td>
+			  <table width="760" border="0" cellpadding="0" cellspacing="0">
+				 <tr>
+				  <td><img src="logo.jpg" width="760" height="140"></td>		  
+				</tr>					  			  
+			  </table>	
+			</td>
+		  </tr>  		  
+          <tr>
+				<td bgcolor="#000000">
+				  <table class="menu" width="760" border="0" cellpadding="0" cellspacing="0">
+					 <tr>
+					  <td height="20" align="right" valign="middle"><font color="#FFFFFF"><p>Documentation &nbsp;&nbsp;</p></font></td>		  
+					</tr>					  			  
+				  </table>	
+				</td>
+			  </tr>  		  			  
+		  <tr>
+			<td bgcolor="#FFFFFF">
+			  <table width="760" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">			    
+				 <tr>
+				  <td width="40"><spacer width="40" type="block"></spacer></td>
+			      <td width="720">
+					<h1>XMLRpcRequest</h1>
+					<h2>Description</h2>
+					<p>Generates well formed XML-RPC requests that can be send to the WebService provider.</p>
+					<h2>Constructor</h2>
+					<p><font color="#4B688B">XMLRpcRequest(url, name)</font></b></p>
+					<h2>Properties</h2>
+					<p><font color="#4B688B">serviceUrl</font>: String that defines the service url.</p>
+					<p><font color="#4B688B">methodName</font>: String that defines the remote method to be call.</p>
+					<p><font color="#4B688B">params</font>: Array that defines the remote method's parameters.</p>
+					<h2>Methods</h2>
+					<p><font color="#4B688B">setServiceUrl(url)</font>: Sets a new value to serviceUrl property.</p>
+					<p><font color="#4B688B">setMethodName(name)</font>: Sets a new value to methodName property.</p>
+					<p><font color="#4B688B">addParam(data)</font>: Inserts a new param in params property.</p>
+					<p><font color="#4B688B">clear()</font>: Clears the params property.</p>
+					<p><font color="#4B688B">process()</font>: Process the XML-RPC request and returns the XML-RPC response.</p>
+					<p><font color="#4B688B">post(server, xml)</font>: Class method that sends the XML data to the server defined in serviceUrl property.</p>
+					<p><font color="#4B688B">paramType(param)</font>: Class method that maps JavaScript data types to XML-RPC tags.</p>
+					<p><font color="#4B688B">marshal(type, data)</font>: Class method that converts JavaScript objects inside params property to XML-RPC tags.</p>
+					<h1>XMLRpcResponse</h1>
+					<h2>Description</h2>
+					<p>Provide acess to XML-RPC WebService responses.</p>
+					<h2>Constructor</h2>
+					<p><font color="#4B688B">XMLRpcResponse(xml)</font></b></p>
+					<h2>Properties</h2>
+					<p><font color="#4B688B">XMLData</font>: DOM TreeWalker property that represents the XML response document.</p>
+					<p><font color="#4B688B">faultValue</font>: Boolean class property that registers when the response is a fault.</p>
+					<p><font color="#4B688B">getName</font>: Boolean class property that controls when retrive the value of XML-RPC name tags.</p>
+					<p><font color="#4B688B">propertyName</font>: String class property that stores the value of XML-RPC name tags.</p>
+					<p><font color="#4B688B">params</font>: Array class property that stores the parameters inside the response.</p>
+					<h2>Methods</h2>
+					<p><font color="#4B688B">isFault()</font>: Indicates when the response is a fault.</p>
+					<p><font color="#4B688B">parse()</font>: Stores the parsed XML-RPC tags inside params class property and returns it.</p>
+					<p><font color="#4B688B">unmarshal(node, parent)</font>: Class method that converts the XML-RPC tags inside XMLData property to JavaScript objects.</p>
+					<h1>Base64</h1>
+					<h2>Description</h2>
+					<p>Class that wraps a Base64 encoded string.</p>
+					<h2>Constructor</h2>
+					<p><font color="#4B688B">Base64(value)</font></b></p>
+					<h2>Properties</h2>
+					<p><font color="#4B688B">bytes</font>: Base64 encoded/decoded string.</p>
+					<h2>Methods</h2>
+					<p><font color="#4B688B">encode()</font>: Applies Base64 econding to bytes property and returns its value.</p>
+					<p><font color="#4B688B">decode()</font>: Applies Base64 deconding to bytes property and returns its value.</p>
+					<h1>Date</h1>
+					<h2>Description</h2>
+					<p>Core JavaScript Date class extented to offer Iso8601 capabilities.</p>
+					<h2>Methods (extended)</h2>
+					<p><font color="#4B688B">toIso8601(value)</font>: Converts a date to ISO8601 format.</p>
+					<p><font color="#4B688B">fromIso8601(value)</font>: Class method used to create a new date from an ISO8601 value.</p><br>
+				  </td>		  
+		        </tr>					  			  
+	          </table>	
+			</td>
+		  </tr>  		  
+		  <tr>
+			<td bgcolor="#AFBFD3">
+			  <table width="760" border="0" cellpadding="1" cellspacing="1">
+				 <tr>
+				  <td align="center"><p> &copy;2005 Carlos Eduardo Gonçalves </p></td>		  
+				</tr>					  			  
+			  </table>	
+			</td>
+		  </tr>  		  
+		</table>
+	</center>	   				  				 				
+  </body>
+</html>
