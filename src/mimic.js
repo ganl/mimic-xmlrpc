@@ -1,6 +1,6 @@
 /*!
- *	Mimic (XML-RPC Client for JavaScript) v2.2 
- *	Copyright (C) 2005-2012 Carlos Eduardo Goncalves (cadu.goncalves@gmail.com)
+ *	Mimic (XML-RPC Client for JavaScript) v2.3 
+ *	Copyright (C) 2005-2013 Carlos Eduardo Goncalves (cadu.goncalves@gmail.com)
  *
  *	Mimic is dual licensed under the MIT (http://opensource.org/licenses/mit-license.php) 
  * 	and GPLv3 (http://opensource.org/licenses/gpl-3.0.html) licenses.
@@ -172,7 +172,10 @@ XmlRpc.getTagData = function(tag) {
 function XmlRpcRequest(url, method) {
 	this.serviceUrl = url;
 	this.methodName = method;
+	this.crossDomain = false;
+	this.withCredentials = false;	
 	this.params = [];
+	this.headers = {};
 };
 
 /**
@@ -212,9 +215,27 @@ XmlRpcRequest.prototype.clearParams = function() {
 
 /**
  * <p>
- * Execute a synchronous XML-RPC request.
+ * Define HTTP header value.
  * </p>
  * 
+ * @param name
+ *            Header name.
+ * @param data
+ *            Header value. Use <null> to clear the header.
+ */
+XmlRpcRequest.prototype.setHeader = function(name, value) {
+    if(value) {
+	  this.headers[name] = value;
+	} else {
+	  delete this.headers[name];
+	}
+};
+
+/**
+ * <p>
+ * Execute a synchronous XML-RPC request.
+ * </p>
+ *
  * @return XmlRpcResponse object.
  */
 XmlRpcRequest.prototype.send = function() {
@@ -222,14 +243,25 @@ XmlRpcRequest.prototype.send = function() {
 	var xml_params = "", 
 	    i = 0, 
 	    xml_call, xhr;
- 
+    // XMLRPC
 	for (i = 0; i < this.params.length; i++) {
 		xml_params += XmlRpc.PARAM.replace("${DATA}", this.marshal(this.params[i]));
 	}
 	xml_call = XmlRpc.REQUEST.replace("${METHOD}", this.methodName);
-	xml_call = XmlRpc.PROLOG + xml_call.replace("${DATA}", xml_params);
-	xhr = Builder.buildXHR();
-	xhr.open("POST", this.serviceUrl, false);
+	xml_call = XmlRpc.PROLOG + xml_call.replace("${DATA}", xml_params);	
+	// XHR
+	xhr = Builder.buildXHR(this.crossDomain);
+	xhr.open("POST", this.serviceUrl, false);	
+	// HTTP headers
+	for(i in this.headers) {
+	    if (this.headers.hasOwnProperty(i)) {
+		  xhr.setRequestHeader(i, this.headers[i]);
+		}
+	}		
+	// HTTP credentials 
+	if(this.withCredentials && "withCredentials" in xhr) {
+		xhr.withCredentials = true;
+	}	
 	xhr.send(Builder.buildDOM(xml_call));
 	return new XmlRpcResponse(xhr.responseXML);
 };
@@ -425,10 +457,16 @@ function Builder() {
  * Build a valid XMLHttpRequest object
  * </p>
  * 
+ * @param cors
+ *            Define if returned implementation must provide CORS (Cross-Origin Resource Sharing) support.
  * @return XMLHttpRequest object.
  */
-Builder.buildXHR = function() {
-	return (typeof XMLHttpRequest != "undefined") ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+Builder.buildXHR = function(cors) {
+    if(cors) {
+		return (typeof XDomainRequest != "undefined") ? new XDomainRequest() : new XMLHttpRequest();
+	} else {
+		return (typeof XMLHttpRequest != "undefined") ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+	}
 };
 
 /**

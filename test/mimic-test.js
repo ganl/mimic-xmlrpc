@@ -1,6 +1,6 @@
 /*!
- *	Mimic (XML-RPC Client for JavaScript) v2.2 
- *	Copyright (C) 2005-2012 Carlos Eduardo Goncalves (cadu.goncalves@gmail.com)
+ *	Mimic (XML-RPC Client for JavaScript) v2.3 
+ *	Copyright (C) 2005-2013 Carlos Eduardo Goncalves (cadu.goncalves@gmail.com)
  *
  *	Mimic is dual licensed under the MIT (http://opensource.org/licenses/mit-license.php) 
  * 	and GPLv3 (http://opensource.org/licenses/gpl-3.0.html) licenses.
@@ -206,8 +206,7 @@ test("Number marshal", function() {
 	valueIntA = 33;
 	valueIntB = new Number(9999);	
 	valueDoubleA = 33.01;
-	valueDoubleB = new Number(9999.01);
-	
+	valueDoubleB = new Number(9999.01);	
 	// Test
 	expect(8);
 	ok(/^\<int\>33\<\/int\>\n$/.test(request.marshal(valueIntA)), "Serialization is ok");
@@ -258,8 +257,7 @@ test("Object marshal", function() {
 	};
 	valueB = new Object();
 	valueB.name = "Other";
-    valueB.version = 2.01;
-    	
+    valueB.version = 2.01;    	
 	// Test
 	expect(4);
 	ok(/^\<struct\>(.*)/.test(request.marshal(valueA)), "Serialization is ok");
@@ -456,8 +454,7 @@ module("Miscellaneous");
 
 test("Request params", function() {
 	// Fixture	
-	var request = new XmlRpcRequest();
-	
+	var request = new XmlRpcRequest();	
 	// Test
 	expect(3);
 	request.addParam("username");
@@ -469,6 +466,18 @@ test("Request params", function() {
 	ok(request.params.length == 1, "One param");
 });
 
+test("Request headers", function() {
+	// Fixture	
+	var request = new XmlRpcRequest();	
+	// Test
+	expect(3);
+	request.setHeader("Content-Type", "text/html");
+	ok(request.headers["Content-Type"] == "text/html", "Header properly set");	
+	request.setHeader("Content-Type", "application/xml");
+	ok(request.headers["Content-Type"] == "application/xml", "Header properly overriden");
+	request.setHeader("Content-Type", null);
+	ok(request.headers["Content-Type"] == null, "Header properly cleaned");
+});
 
 test("Fault response", function() {
 	// Fixture	
