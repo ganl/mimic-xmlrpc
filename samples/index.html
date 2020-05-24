@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="../src/mimic.js"></script>
+<script>
+const method = 'node.hello'
+let request = new XmlRpcClient("http://172.28.128.3:26821/RPC2", method);
+request.crossDomain = true
+
+request.addParam(111);
+request.addParam("222");
+request.addParam([15, 25, 35, 45]);
+var response = request.send();
+console.log(response)
+console(response.parseXML());
+
+  </script>
+</body>
+</html>

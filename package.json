@@ -1,0 +1,32 @@
+{
+  "name": "mimic-xmlrpc",
+  "version": "3.0.0",
+  "description": "XML-RPC Client for JavaScript ",
+  "main": "src/mimic.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganl/mimic-xmlrpc.git"
+  },
+  "keywords": [
+    "mimic-xmlrpc",
+    "xmlrpc",
+    "xmlrpc-client",
+    "xmlrpc-js"
+  ],
+  "author": "ganl",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ganl/mimic-xmlrpc/issues"
+  },
+  "homepage": "https://github.com/ganl/mimic-xmlrpc#readme",
+  "dependencies": {
+    "xmlhttprequest": "^1.8.0"
+  }
+}
