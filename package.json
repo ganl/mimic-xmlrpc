@@ -1,6 +1,6 @@
 {
   "name": "mimic-xmlrpc",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "XML-RPC Client for JavaScript ",
   "main": "src/mimic.js",
   "directories": {

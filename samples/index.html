@@ -8,6 +8,7 @@
 <body>
   <script src="../src/mimic.js"></script>
 <script>
+
 const method = 'node.hello'
 let request = new XmlRpcClient("http://172.28.128.3:26821/RPC2", method);
 request.crossDomain = true
@@ -17,7 +18,7 @@ request.addParam("222");
 request.addParam([15, 25, 35, 45]);
 var response = request.send();
 console.log(response)
-console(response.parseXML());
+console.log(response.parseXML());
 
   </script>
 </body>

@@ -11,6 +11,8 @@
 
 ; (function () {
 
+	const DEFAULT_TIMEOUT = 10000;
+
 	/**
 	 * XmlRpc helper.
 	 */
@@ -181,6 +183,11 @@
 		this.withCredentials = false;
 		this.params = [];
 		this.headers = {};
+
+		this.async = false
+		this.timeout = DEFAULT_TIMEOUT; // default 10s
+		var self = this
+		this.ontimeout = function (e) { console.log('The RPC Request to ' + self.serviceUrl + ' has exceeded the allotted timeout'); }
 	};
 
 	/**
@@ -238,6 +245,20 @@
 
 	/**
 	 * <p>
+	 * set Timeout for Rpc Request.
+	 * </p>
+	 * 
+	 * @param value
+	 *            Timeout value in ms.
+	 */
+	XmlRpcRequest.prototype.setTimeout = function (value) {
+		var timeout = parseInt(value);
+		this.timeout = timeout !== NaN ? timeout : DEFAULT_TIMEOUT;
+		this.async = true
+	};
+
+	/**
+	 * <p>
 	 * Execute a synchronous XML-RPC request.
 	 * </p>
 	 *
@@ -256,7 +277,15 @@
 		xml_call = XmlRpc.PROLOG + xml_call.replace("${DATA}", xml_params);
 		// XHR
 		xhr = Builder.buildXHR(this.crossDomain);
-		xhr.open("POST", this.serviceUrl, false);
+
+		xhr.open('POST', this.serviceUrl, this.async);
+
+		if (this.async) {
+			// Set timeout
+			xhr.timeout = this.timeout; // default 10s
+			xhr.ontimeout = this.ontimeout
+		}
+
 		// HTTP headers
 		for (i in this.headers) {
 			if (this.headers.hasOwnProperty(i)) {
@@ -350,10 +379,13 @@
 	 * @return JavaScript object parsed from XML-RPC document.
 	 */
 	XmlRpcResponse.prototype.parseXML = function () {
+		if (this.xmlData === null) {
+			return null;
+		}
 		// Vars
 		var i, nodesLength;
 
-		nodesLength = this.xmlData.childNodes.length;
+		nodesLength = this.xmlData.childNodes ? this.xmlData.childNodes.length : 0;
 		this.faultValue = undefined;
 		this.currentIsName = false;
 		this.propertyName = "";
@@ -469,6 +501,7 @@
 	Builder.buildXHR = function (cors) {
 		if (typeof window === "undefined" && typeof require != "undefined") {
 			XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+			console.log(111)
 		}
 		if (cors) {
 			return (typeof XDomainRequest != "undefined") ? new XDomainRequest() : new XMLHttpRequest();
