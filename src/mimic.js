@@ -188,6 +188,7 @@
 		this.timeout = DEFAULT_TIMEOUT; // default 10s
 		var self = this
 		this.ontimeout = function (e) { console.log('The RPC Request to ' + self.serviceUrl + ' has exceeded the allotted timeout'); }
+		this.callbak = null
 	};
 
 	/**
@@ -283,6 +284,10 @@
 		if (this.async) {
 			// Set timeout
 			xhr.timeout = this.timeout; // default 10s
+			var self = this
+			xhr.onload = function (e) {
+				self.callback && self.callback(new XmlRpcResponse(xhr.responseXML));
+			};
 			xhr.ontimeout = this.ontimeout
 		}
 
@@ -296,8 +301,12 @@
 		if (this.withCredentials && "withCredentials" in xhr) {
 			xhr.withCredentials = true;
 		}
+
 		xhr.send(Builder.buildDOM(xml_call));
-		return new XmlRpcResponse(xhr.responseXML);
+
+		if (!this.async) {
+			return new XmlRpcResponse(xhr.responseXML);
+		}
 	};
 
 	/**
